@@ -37,40 +37,28 @@ The CSS is merged using the `optimization.splitChunks.cacheGroups` rule:
 ```
 // Merge all the CSS into one file
 styles: {
-  name: 'styles',
-  test: /\.s?css$/,
-  chunks: 'all',
-  minChunks: 1,
-  reuseExistingChunk: true,
+    name: 'styles',
+    test: /\.s?css$/,
+    chunks: 'all',
+    minChunks: 1,
+    reuseExistingChunk: true,
+    enforce: true,
 },
 ```
 
 This outputs the following assets:
 
 ```
-          Asset       Size  Chunks             Chunk Names
-   critical.css   68 bytes       0  [emitted]  critical
-    critical.js  101 bytes       0  [emitted]  critical
-MyComponent.css   50 bytes       1  [emitted]  MyComponent
- MyComponent.js  436 bytes       1  [emitted]  MyComponent
-     vendors.js   96.8 KiB       2  [emitted]  vendors
-       main.css   31 bytes       3  [emitted]  main
-        main.js   3.74 KiB       3  [emitted]  main
-     index.html  399 bytes          [emitted]  
-Entrypoint main = vendors.js critical.css critical.js main.css main.js
-```
-
-Both `main.css` and `critical.css` should be loaded as `link` in the page. `main.css` could
-however be deferred, as illustrated below.
-
-```
-<link href="critical.css" rel="stylesheet">
-<link
-    rel="stylesheet"
-    href="main.css"
-    media="none"
-    onload="if(media!='screen')media='screen'">
-<noscript>
-    <link rel="stylesheet" href="main.css">
-</noscript>
+Hash: 58324b488358ee191231
+Version: webpack 4.2.0
+Time: 806ms
+Built at: 2018-3-23 14:12:41
+         Asset       Size  Chunks             Chunk Names
+    styles.css   93 bytes       0  [emitted]  styles
+     styles.js  121 bytes       0  [emitted]  styles
+MyComponent.js  409 bytes       1  [emitted]  MyComponent
+    vendors.js   96.8 KiB       2  [emitted]  vendors
+     bundle.js   3.45 KiB       3  [emitted]  bundle
+    index.html  358 bytes          [emitted]  
+Entrypoint bundle = vendors.js styles.css styles.js bundle.js
 ```
