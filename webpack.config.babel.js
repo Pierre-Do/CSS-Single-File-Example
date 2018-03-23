@@ -72,6 +72,7 @@ export default {
           chunks: 'all',
           minChunks: 1,
           reuseExistingChunk: true,
+          enforce: true,
         },
       },
     },
