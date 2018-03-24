@@ -2,18 +2,16 @@ import webpack from 'webpack';
 import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
-const vendors = ['react', 'react-dom'];
-const isProduction = process.env.NODE_ENV === 'production';
+const vendor = ['react', 'react-dom'];
 
 export default {
   name: 'client',
-  mode: isProduction ? 'production' : 'development',
+  mode: 'production',
   target: 'web',
   entry: {
     bundle: './entry.js',
-    vendors,
+    vendor,
   },
   context: path.join(__dirname, 'src'),
 
@@ -21,8 +19,6 @@ export default {
     // Disable the verbose output on build
     children: false,
   },
-
-  devtool: isProduction ? false : 'inline-cheap-module-eval-source-map',
 
   output: {
     path: path.join(__dirname, 'target', 'build'),
@@ -51,7 +47,10 @@ export default {
   optimization: {
     splitChunks: {
       cacheGroups: {
+        // Don't generate automatic common chunks
         default: false,
+        // Don't generate automatic vendor chunks
+        vendors: false,
         // Custom common chunk
         bundle: {
           name: 'commons',
@@ -59,11 +58,11 @@ export default {
           minChunks: 3,
           reuseExistingChunk: false,
         },
-        // Customer vendor
-        vendors: {
+        // Custom vendor chunk by name
+        vendor: {
           chunks: 'initial',
-          name: 'vendors',
-          test: 'vendors',
+          name: 'vendor',
+          test: 'vendor',
         },
         // Merge all the CSS into one file
         styles: {
@@ -71,27 +70,18 @@ export default {
           test: /\.s?css$/,
           chunks: 'all',
           minChunks: 1,
-          reuseExistingChunk: true,
           enforce: true,
         },
       },
     },
   },
-  profile: false,
 
   plugins: [
-    new webpack.optimize.ModuleConcatenationPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[name].css',
     }),
-    new OptimizeCSSAssetsPlugin(),
     new HtmlWebpackPlugin({
-      minify: {
-        collapseWhitespace: true,
-        preserveLineBreaks: true,
-        removeComments: true,
-      },
       filename: 'index.html',
       template: path.join(__dirname, 'src', 'index.html'),
     }),
