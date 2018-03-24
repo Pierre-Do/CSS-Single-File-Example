@@ -1,4 +1,4 @@
-# CSS Split Example Project
+# Extract CSS in one file with Webpack 4
 
 The goal of this repository is to demonstrate CSS the extraction of all styles into one CSS file with Webpack 4.
 
