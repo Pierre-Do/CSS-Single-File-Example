@@ -68,7 +68,6 @@ export default {
           name: 'styles',
           test: /\.s?css$/,
           chunks: 'all',
-          minChunks: 1,
           enforce: true,
         },
       },
